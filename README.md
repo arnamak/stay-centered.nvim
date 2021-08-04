@@ -8,7 +8,7 @@ use "arnamak/stay-centered.nvim"
 ```
 
 ## Enable
-*Note*: You will probably want to disable scrolloff (`set scrolloff=0`)
+**Note**: You will probably want to disable scrolloff (`set scrolloff=0`)
 ```
 require("stay-centered")
 ```
