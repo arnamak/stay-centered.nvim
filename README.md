@@ -14,7 +14,10 @@ require("stay-centered")
 
 ## Summary
 
-This is a really simple replacement for what you might typically do in a keybinding such as:
+A simple `autocmd` that keeps your cursor at the center of the screen in all contexts.
+No jerkiness when changing modes or jumping to different LOCs.
+
+Replacement for what you might typically do in keybindings such as:
 ```
 nnoremap "j" "jzz"
 nnoremap "n" "nzzzv"
@@ -22,11 +25,9 @@ nnoremap "n" "nzzzv"
 etc
 ```
 
-Instead, using `autocmd` and `CursorMove`/`CursorMoveI`, `zz` is applied to every keystroke.
-Minorly optimized by only applying `zz` to vertical movement.
+Using `autocmd` and `CursorMoved`/`CursorMovedI` events, `zz` is applied to every keystroke that would change the cursor position.
+Minorly optimized by only applying `zz` to vertical line movement.
 
-Should not get in the way of plugins like `auto-pairs` or `compe` (which can be problematic in insert mode)
+Should not get in the way of plugins like `auto-pairs` or `compe`, which tend to have their own mappings for `<CR>`.
 
-Should stay centered with minimal jerky-ness no matter what.
-
-Will update to lua once we can do `autocmd`. Until then, vimscript seems slightly more performant.
+Will update to lua once we can do `autocmd` natively. Until then, vimscript seems slightly more performant.
