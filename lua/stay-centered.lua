@@ -1,5 +1,12 @@
 vim.api.nvim_exec(
   [[
+    :function StayCenteredI()
+    :  let line = line(".")
+    :  if line != get(b:, 'last_line', 0)
+    :    let col = getcurpos()[2]
+    :    call cursor(line, col)
+    :  endif
+    :endfunction
     :function StayCentered()
     :  let line = line(".")
     :  if line != get(b:, 'last_line', 0)
@@ -9,7 +16,8 @@ vim.api.nvim_exec(
     :endfunction
     augroup StayCentered
       autocmd!
-      autocmd CursorMoved,CursorMovedI * :call StayCentered()
+      autocmd CursorMovedI * :call StayCenteredI(),
+      autocmd CursorMoved * :call StayCentered()
     augroup END
   ]], true
 )
