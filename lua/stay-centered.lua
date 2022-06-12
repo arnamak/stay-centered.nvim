@@ -8,8 +8,8 @@ function StayCentered(inInsert)
         vim.cmd('norm! zz')
         vim.b.last_line = line
         if inInsert then
-            local column = vim.fn.getcurpos()[3]
-            vim.api.nvim_win_set_cursor(0, { line, column })
+            local column = vim.fn.getcurpos()[5]
+            vim.fn.cursor(line, column)
         end
     end
 end
