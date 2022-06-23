@@ -29,5 +29,3 @@ Using `autocmd` and `CursorMoved`/`CursorMovedI` events, `zz` is applied to ever
 Minorly optimized by only applying `zz` to vertical line movement.
 
 Should not get in the way of plugins like `auto-pairs` or `compe`, which tend to have their own mappings for `<CR>`.
-
-Will update to lua once we can do `autocmd` natively. Until then, vimscript seems slightly more performant.
