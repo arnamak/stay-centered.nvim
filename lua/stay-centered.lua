@@ -27,6 +27,12 @@ add_command("CursorMoved", {
 		plugin.stay_centered({ mode = mode.other, skip_filetypes = skip_filetypes })
 	end,
 })
+add_command("BufEnter", {
+	group = group,
+	callback = function()
+		plugin.stay_centered({ mode = mode.other, skip_filetypes = skip_filetypes })
+	end,
+})
 
 return {
 	setup = setup,
