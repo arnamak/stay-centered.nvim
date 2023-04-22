@@ -9,7 +9,7 @@ use "arnamak/stay-centered.nvim"
 
 ## Enable
 ```
-require("stay-centered")
+require("stay-centered").setup()
 ```
 
 ## Summary
@@ -32,10 +32,12 @@ Should not get in the way of plugins like `auto-pairs` or `compe`, which tend to
 
 ## Options
 
-If there are certain filetypes you'd like to omit from this functionality, you can do so by setting the following variable before enabling `stay-centered.nvim`:
+If there are certain filetypes you'd like to omit from this functionality, you can use `setup` to do that:
 
 ```
-vim.api.nvim_set_var('stay-centered#skip_filetypes', { "lua" })
+require("stay-centered").setup({
+  skip_filetypes = {"lua", "typescript"},
+})
 ```
 
 The filetype is determined by the vim filetype, not the file extension. In order to get the filetype, open a file and run the command:
@@ -58,16 +60,7 @@ const myVar
 
 ```
 // plugins.lua
-vim.api.nvim_set_var('stay-centered#skip_filetypes', { "typescript" })
-
-return packer.startup(
-  function()
-    use "wbthomason/packer.nvim"
-    use "arnamak/stay-centered.nvim"
-    ...
-  end
-)
+require("stay-centered").setup({
+  skip_filetypes = {"typescript"},
+})
 ```
-Obviously, you can set that variable anywhere, so long as it is before you initialize `stay-centered`.
-
-You may specify multiple filetypes, comma separated, within the table.

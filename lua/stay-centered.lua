@@ -1,40 +1,33 @@
-local ac = vim.api.nvim_create_autocmd
-local ag = vim.api.nvim_create_augroup
-local getCursor = vim.api.nvim_win_get_cursor
-local skip_files = vim.g["stay-centered#skip_filetypes"]
+local skip_filetypes = {}
 
-local function config_has_files_to_skip (t, v)
-  if t ~= nil then
-    for index, value in ipairs(t) do
-      if value == v then return true end
-    end
-  end
+local function setup(ctx)
+	if ctx == nil then
+		return
+	end
+
+	skip_filetypes = ctx.skip_filetypes
 end
 
-function StayCentered(inInsert)
-  if config_has_files_to_skip(skip_files, vim.bo.filetype) then return false end
+local mode = require("mode")
+local plugin = require("plugin")
 
-  local line = getCursor(0)[1]
-  if line ~= vim.b.last_line then
-    vim.cmd('norm! zz')
-    vim.b.last_line = line
-    if inInsert then
-      local column = vim.fn.getcurpos()[5]
-      vim.fn.cursor(line, column)
-    end
-  end
-end
+local add_group = vim.api.nvim_create_augroup
+local group = add_group("StayCentered", { clear = true })
 
-local group = ag('StayCentered', { clear = true })
-ac('CursorMovedI', {
-    group = group,
-    callback = function()
-        StayCentered(true)
-    end,
+local add_command = vim.api.nvim_create_autocmd
+add_command("CursorMovedI", {
+	group = group,
+	callback = function()
+		plugin.stay_centered({ mode = mode.insert, skip_filetypes = skip_filetypes })
+	end,
 })
-ac('CursorMoved', {
-    group = group,
-    callback = function()
-        StayCentered(false)
-    end,
+add_command("CursorMoved", {
+	group = group,
+	callback = function()
+		plugin.stay_centered({ mode = mode.other, skip_filetypes = skip_filetypes })
+	end,
 })
+
+return {
+	setup = setup,
+}
