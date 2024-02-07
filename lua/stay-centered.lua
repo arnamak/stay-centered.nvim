@@ -1,11 +1,19 @@
-local skip_filetypes = {}
+local M = {}
 
-local function setup(ctx)
+M.cfg = {
+	skip_filetypes = {},
+	enabled = true,
+}
+
+M.setup = function(ctx)
 	if ctx == nil then
 		return
 	end
 
-	skip_filetypes = ctx.skip_filetypes
+	M.cfg.skip_filetypes = ctx.skip_filetypes or {}
+	if type(ctx.enabled) == "boolean" then
+		M.cfg.enabled = ctx.enabled
+	end
 end
 
 local mode = require("mode")
@@ -18,22 +26,38 @@ local add_command = vim.api.nvim_create_autocmd
 add_command("CursorMovedI", {
 	group = group,
 	callback = function()
-		plugin.stay_centered({ mode = mode.insert, skip_filetypes = skip_filetypes })
+		plugin.stay_centered({ mode = mode.insert, cfg = M.cfg })
 	end,
 })
 add_command("CursorMoved", {
 	group = group,
 	callback = function()
-		plugin.stay_centered({ mode = mode.other, skip_filetypes = skip_filetypes })
+		plugin.stay_centered({ mode = mode.other, cfg = M.cfg })
 	end,
 })
 add_command("BufEnter", {
 	group = group,
 	callback = function()
-		plugin.stay_centered({ mode = mode.other, skip_filetypes = skip_filetypes })
+		plugin.stay_centered({ mode = mode.other, cfg = M.cfg })
 	end,
 })
 
-return {
-	setup = setup,
-}
+M.enable = function()
+	M.cfg.enabled = true
+
+	plugin.stay_centered({ mode = mode.other, cfg = M.cfg })
+end
+
+M.disable = function()
+	M.cfg.enabled = false
+end
+
+M.toggle = function()
+	if M.cfg.enabled then
+		M.disable()
+	else
+		M.enable()
+	end
+end
+
+return M
