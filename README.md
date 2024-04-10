@@ -1,66 +1,77 @@
 # stay-centered.nvim
 
-## Install
-
-Using Packer:
-```
-use "arnamak/stay-centered.nvim"
-```
-
-## Enable
-```
-require("stay-centered").setup()
-```
-
-## Summary
-
 A simple `autocmd` that keeps your cursor at the center of the screen in all contexts.
 No jerkiness when changing modes or jumping to different LOCs.
 
 Replacement for what you might typically do in keybindings such as:
-```
+```vim
 nnoremap "j" "jzz"
 nnoremap "n" "nzzzv"
-...
-etc
+" ...
+" etc
 ```
 
 Using `autocmd` and `CursorMoved`/`CursorMovedI` events, `zz` is applied to every keystroke that would change the cursor position.
 Minorly optimized by only applying `zz` to vertical line movement.
 
-Should not get in the way of plugins like `auto-pairs` or `compe`, which tend to have their own mappings for `<CR>`.
+Should not get in the way of plugins like `auto-pairs` or `nvim-cmp`, which tend to have their own mappings for `<CR>`.
+
+## Install
+
+Using Lazy:
+```lua
+{
+  'arnamak/stay-centered.nvim'
+}
+```
+
+Using Packer:
+```lua
+use 'arnamak/stay-centered.nvim'
+```
 
 ## Options
 
-If there are certain filetypes you'd like to omit from this functionality, you can use `setup` to do that:
-
-```
-require("stay-centered").setup({
-  skip_filetypes = {"lua", "typescript"},
+```lua
+require('stay-centered').setup({
+  -- The filetype is determined by the vim filetype, not the file extension. In order to get the filetype, open a file and run the command:
+  -- :lua print(vim.bo.filetype)
+  skip_filetypes = {}
+  -- Set to false to disable by default
+  enabled = true,
 })
 ```
 
-The filetype is determined by the vim filetype, not the file extension. In order to get the filetype, open a file and run the command:
+### Examples
 
-```
-:vim.bo.filetype
-```
-
-#### Example
-
-```
-// someFile.ts
-
-const myVar
-...etc
-
-:lua print(vim.bo.filetype)
-#=> typescript
+In Lazy:
+```lua
+{
+  'arnamak/stay-centered.nvim'
+  opts = {
+    skip_filetypes = { 'lua', 'typescript' },
+  }
+}
 ```
 
+In Packer
+```lua
+use {
+  'arnamak/stay-centered.nvim',
+  config = function()
+    require('stay-centered').setup({
+      skip_filetypes = { 'lua', 'typescript' }
+    })
+  end
+}
 ```
-// plugins.lua
-require("stay-centered").setup({
-  skip_filetypes = {"typescript"},
-})
+
+## Enabling/Disabling with Keymap
+
+`stay-centered.nvim` has built in functions `enable`, `disable`, and `toggle` to handle this behaviour.
+
+Example for toggling on keymap:
+
+```lua
+vim.keymap.set({ 'n', 'v' }, '<leader>st', require('stay-centered').toggle, { desc = 'Toggle stay-centered.nvim' })
 ```
