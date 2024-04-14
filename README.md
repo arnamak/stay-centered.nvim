@@ -30,7 +30,7 @@ Using Packer:
 use 'arnamak/stay-centered.nvim'
 ```
 
-## Options
+## Options (Default)
 
 ```lua
 require('stay-centered').setup({
@@ -39,6 +39,8 @@ require('stay-centered').setup({
   skip_filetypes = {}
   -- Set to false to disable by default
   enabled = true,
+  -- allows scrolling to move the cursor without centering, default recommended
+  allow_scroll_move = true,
 })
 ```
 

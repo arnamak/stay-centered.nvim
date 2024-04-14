@@ -3,6 +3,7 @@ local M = {}
 M.cfg = {
 	skip_filetypes = {},
 	enabled = true,
+	allow_scroll_move = true,
 }
 
 M.setup = function(ctx)
@@ -13,6 +14,9 @@ M.setup = function(ctx)
 	M.cfg.skip_filetypes = ctx.skip_filetypes or {}
 	if type(ctx.enabled) == "boolean" then
 		M.cfg.enabled = ctx.enabled
+	end
+	if type(ctx.allow_scroll_move) == "boolean" then
+		M.cfg.allow_scroll_move = ctx.allow_scroll_move
 	end
 end
 

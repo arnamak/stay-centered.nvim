@@ -23,6 +23,21 @@ local function stay_centered(ctx)
 	end
 
 	local line = vim.api.nvim_win_get_cursor(0)[1]
+	if vim.b.last_line == nil then
+		vim.b.last_line = line
+	end
+
+	-- check if cursor moved from window scroll
+	if ctx.cfg.allow_scroll_move then
+		if
+			(line == vim.fn.line("w0") and line > vim.b.last_line)
+			or (line == vim.fn.line("w$") and line < vim.b.last_line)
+		then
+			vim.b.last_line = line
+			return
+		end
+	end
+
 	if line ~= vim.b.last_line then
 		vim.cmd("norm! zz")
 		vim.b.last_line = line
