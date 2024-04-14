@@ -28,12 +28,14 @@ local function stay_centered(ctx)
 	end
 
 	-- check if cursor moved from window scroll
-	if
-		(line == vim.fn.line("w0") and line > vim.b.last_line)
-		or (line == vim.fn.line("w$") and line < vim.b.last_line)
-	then
-		vim.b.last_line = line
-		return
+	if ctx.cfg.allow_scroll_move then
+		if
+			(line == vim.fn.line("w0") and line > vim.b.last_line)
+			or (line == vim.fn.line("w$") and line < vim.b.last_line)
+		then
+			vim.b.last_line = line
+			return
+		end
 	end
 
 	if line ~= vim.b.last_line then
