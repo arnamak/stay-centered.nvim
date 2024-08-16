@@ -15,7 +15,7 @@ local function must_skip_file(skip_filetypes, current_type)
 end
 
 local function stay_centered(ctx)
-	if not ctx.cfg.enabled then
+	if not ctx.cfg.enabled or not ctx.cfg.active then
 		return
 	end
 	if must_skip_file(ctx.cfg.skip_filetypes, vim.bo.filetype) then

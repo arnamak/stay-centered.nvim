@@ -36,11 +36,14 @@ use 'arnamak/stay-centered.nvim'
 require('stay-centered').setup({
   -- The filetype is determined by the vim filetype, not the file extension. In order to get the filetype, open a file and run the command:
   -- :lua print(vim.bo.filetype)
-  skip_filetypes = {}
+  skip_filetypes = {},
   -- Set to false to disable by default
   enabled = true,
   -- allows scrolling to move the cursor without centering, default recommended
   allow_scroll_move = true,
+  -- temporarily disables plugin on left-mouse down, allows natural mouse selection
+  -- try disabling if plugin causes lag, function uses vim.on_key
+  disable_on_mouse = true,
 })
 ```
 
@@ -70,7 +73,7 @@ use {
 
 ## Enabling/Disabling with Keymap
 
-`stay-centered.nvim` has built in functions `enable`, `disable`, and `toggle` to handle this behaviour.
+`stay-centered.nvim` has built-in functions `enable`, `disable`, and `toggle` to handle this behavior.
 
 Example for toggling on keymap:
 
