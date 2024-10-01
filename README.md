@@ -47,7 +47,7 @@ require('stay-centered').setup({
 In Lazy:
 ```lua
 {
-  'arnamak/stay-centered.nvim'
+  'arnamak/stay-centered.nvim',
   opts = {
     skip_filetypes = { 'lua', 'typescript' },
   }
