@@ -75,3 +75,10 @@ Example for toggling on keymap:
 ```lua
 vim.keymap.set({ 'n', 'v' }, '<leader>st', require('stay-centered').toggle, { desc = 'Toggle stay-centered.nvim' })
 ```
+
+## Alternatives
+
+Setting `scrolloff=1000` will achieve similar effects, albeit with a few key differences:
+- Scrolling (e.g. mouse, `<C-e>`, `<C-y>`, etc.) will always move the cursor
+- Padding on the bottom of the screen will not be added
+- Using this large of a scroll off prevents commands like `zt`, `zb`, `H`, `L` from doing anything
