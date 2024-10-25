@@ -41,7 +41,13 @@ local function stay_centered(ctx)
 		vim.cmd("norm! zz")
 		vim.b.last_line = line
 		if ctx.mode == mode.insert then
-			local column = vim.fn.getcurpos()[5]
+			local target_column = vim.fn.getcurpos()[5]
+			local max_column = vim.fn.strdisplaywidth(vim.fn.getline("."))
+			local column = vim.fn.virtcol2col(0, line, target_column)
+			if target_column > max_column then
+				column = #vim.fn.getline(".") + 1
+			end
+
 			vim.fn.cursor({ line, column })
 		end
 	end
