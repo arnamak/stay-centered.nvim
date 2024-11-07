@@ -30,15 +30,20 @@ Using Packer:
 use 'arnamak/stay-centered.nvim'
 ```
 
-## Options
+## Options (Default)
 
 ```lua
 require('stay-centered').setup({
   -- The filetype is determined by the vim filetype, not the file extension. In order to get the filetype, open a file and run the command:
   -- :lua print(vim.bo.filetype)
-  skip_filetypes = {}
+  skip_filetypes = {},
   -- Set to false to disable by default
   enabled = true,
+  -- allows scrolling to move the cursor without centering, default recommended
+  allow_scroll_move = true,
+  -- temporarily disables plugin on left-mouse down, allows natural mouse selection
+  -- try disabling if plugin causes lag, function uses vim.on_key
+  disable_on_mouse = true,
 })
 ```
 
@@ -47,7 +52,8 @@ require('stay-centered').setup({
 In Lazy:
 ```lua
 {
-  'arnamak/stay-centered.nvim'
+  'arnamak/stay-centered.nvim',
+  lazy = false,
   opts = {
     skip_filetypes = { 'lua', 'typescript' },
   }
@@ -68,10 +74,17 @@ use {
 
 ## Enabling/Disabling with Keymap
 
-`stay-centered.nvim` has built in functions `enable`, `disable`, and `toggle` to handle this behaviour.
+`stay-centered.nvim` has built-in functions `enable`, `disable`, and `toggle` to handle this behavior.
 
 Example for toggling on keymap:
 
 ```lua
 vim.keymap.set({ 'n', 'v' }, '<leader>st', require('stay-centered').toggle, { desc = 'Toggle stay-centered.nvim' })
 ```
+
+## Alternatives
+
+Setting `scrolloff=1000` will achieve similar effects, albeit with a few key differences:
+- Scrolling (e.g. mouse, `<C-e>`, `<C-y>`, etc.) will always move the cursor
+- Padding on the bottom of the screen will not be added
+- Using this large of a scroll off prevents commands like `zt`, `zb`, `H`, `L` from doing anything
